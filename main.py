@@ -21,28 +21,15 @@ from modules.gae.log_in import log_in as gae_log_in
 from modules.webdriver.webdriver_config.set_default_firefox_options import (
     set_default_firefox_options,
 )
+from modules.common.save_screenshot import save_screenshot
 
-load_dotenv()
+# Configure logging initially (can be re-configured if needed)
 logger = logging.getLogger(__name__)
-configure_logging()
-
-GAE_TIMEOUT_AUTH = int(os.environ["GAE_TIMEOUT_AUTH"])
-GAE_TIMEOUT_DEFAULT = int(os.environ["GAE_TIMEOUT_DEFAULT"])
-GAE_USERNAME = os.environ["GAE_USERNAME"]
-GAE_PASSWORD = os.environ["GAE_PASSWORD"]
-SEFAZ_SSO_LOGIN_PAGE_URL = os.environ["SEFAZ_SSO_LOGIN_PAGE_URL"]
-GAE_DEBITO_CONTA_CORRENTE_URL = os.environ["GAE_DEBITO_CONTA_CORRENTE_URL"]
-
-WEB_DRIVER_HEADLESS: bool = os.environ["WEB_DRIVER_HEADLESS"].lower() == "true"
-
-OUTPUT_DIR = os.environ["OUTPUT_DIR"]
-output_dir = Path(os.path.join(OUTPUT_DIR, Path(__file__).stem))
-output_dir.mkdir(parents=True, exist_ok=True)
-output_dir__str = output_dir.as_posix()
+# configure_logging() # Move this call or ensure it doesn't conflict
 
 FLUXO_GAE = "FLUXO GAE"
 
-LISTA_RENAVAMS = [
+DEFAULT_LISTA_RENAVAMS = [
     "150056400",   # Renavam liquidado com uma linha
     "12345678901", # Renavam inválido
     "1213839626",  # Não liquidado com mais de uma linha
@@ -50,41 +37,79 @@ LISTA_RENAVAMS = [
 ]
 
 
-def executar_teste():
+def load_settings():
+    """Load settings from environment variables."""
+    # load_dotenv() # Assumes load_dotenv is called before or env is set
+    return {
+        "GAE_TIMEOUT_AUTH": int(os.environ.get("GAE_TIMEOUT_AUTH", "30")),
+        "GAE_TIMEOUT_DEFAULT": int(os.environ.get("GAE_TIMEOUT_DEFAULT", "30")),
+        "GAE_USERNAME": os.environ.get("GAE_USERNAME"),
+        "GAE_PASSWORD": os.environ.get("GAE_PASSWORD"),
+        "SEFAZ_SSO_LOGIN_PAGE_URL": os.environ.get("SEFAZ_SSO_LOGIN_PAGE_URL"),
+        "GAE_DEBITO_CONTA_CORRENTE_URL": os.environ.get("GAE_DEBITO_CONTA_CORRENTE_URL"),
+        "WEB_DRIVER_HEADLESS": os.environ.get("WEB_DRIVER_HEADLESS", "false").lower() == "true",
+        "OUTPUT_DIR": os.environ.get("OUTPUT_DIR", "output"),
+    }
+
+
+def executar_teste(lista_renavams=None, stop_event=None):
+    if lista_renavams is None:
+        lista_renavams = DEFAULT_LISTA_RENAVAMS
+    
+    configure_logging() # Ensure logging is configured
+    
+    settings = load_settings()
+    
+    # Check for missing critical settings
+    missing = [k for k, v in settings.items() if v is None and k != "OUTPUT_DIR"] # Check criticals
+    if missing:
+        logger.error(f"Faltam variáveis de ambiente: {missing}")
+        return []
+
+    OUTPUT_DIR = settings["OUTPUT_DIR"]
+    output_dir = Path(os.path.join(OUTPUT_DIR, Path(__file__).stem))
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir__str = output_dir.as_posix()
+    
+    web_driver = None
+    renavams_liquidados = []
+
     with log_context(color=Color.GREEN, prefix__list=[FLUXO_GAE]):
-        web_driver = None
         try:
             temp_browser_profile_output_dir = (
                 helper_function__temp_browser_profile_dir__path()
             )
             firefox_options = set_default_firefox_options(
-                headless=WEB_DRIVER_HEADLESS,
+                headless=settings["WEB_DRIVER_HEADLESS"],
                 firefox_options=FirefoxOptions(),
                 browser_profile_output_dir=temp_browser_profile_output_dir,
             )
             web_driver = webdriver.Firefox(options=firefox_options)
 
             gae_log_in(
-                timeout=GAE_TIMEOUT_AUTH,
+                timeout=settings["GAE_TIMEOUT_AUTH"],
                 web_driver=web_driver,
-                login_url=SEFAZ_SSO_LOGIN_PAGE_URL,
-                username=GAE_USERNAME,
-                password=GAE_PASSWORD,
+                login_url=settings["SEFAZ_SSO_LOGIN_PAGE_URL"],
+                username=settings["GAE_USERNAME"],
+                password=settings["GAE_PASSWORD"],
             )
 
-            logger.debug(f"Iniciando processamento de {len(LISTA_RENAVAMS)} Renavams.")
+            logger.debug(f"Iniciando processamento de {len(lista_renavams)} Renavams.")
 
-            renavams_liquidados = []
-            for renavam in LISTA_RENAVAMS:
+            for renavam in lista_renavams:
+                if stop_event and stop_event.is_set():
+                    logger.info("Execução interrompida pelo usuário.")
+                    break
+
                 with log_context(prefix__list=[FLUXO_GAE, renavam]):
                     logger.debug(f"Iniciando verificação do Renavam: {renavam}")
                     try:
-                        web_driver.get(GAE_DEBITO_CONTA_CORRENTE_URL)
+                        web_driver.get(settings["GAE_DEBITO_CONTA_CORRENTE_URL"])
 
                         situacao_debito = gae_verificar_cda_liquidada_por_renavam(
                             web_driver=web_driver,
                             renavam=renavam,
-                            timeout=GAE_TIMEOUT_DEFAULT,
+                            timeout=settings["GAE_TIMEOUT_DEFAULT"],
                         )
 
                         if situacao_debito == "LIQUIDADO":
@@ -97,25 +122,27 @@ def executar_teste():
                         with log_context(color=Color.YELLOW, prefix__list=[FLUXO_GAE]):
                             logger.error(f"FALHOU: 'renavam = {renavam}'")
                             logger.exception(f"{e.__class__.__name__}: {e}")
-                            file_name = f"{renavam}_RENAVAM_GAE_ERROR_.png"
-                            raw_path = os.path.join(output_dir__str, file_name)
-                            file_path = os.path.normpath(raw_path)
-                            web_driver.save_screenshot(file_path)
-                            logger.info(f"Screenshot do erro salvo em: {file_path}")
+                            save_screenshot(
+                                web_driver=web_driver,
+                                file_name=f"{renavam}_RENAVAM_GAE_ERROR_.png",
+                                output_dir=output_dir__str,
+                            )
                     except KeyboardInterrupt:
                         logger.info(
                             "KeyboardInterrupt: Execução interrompida pelo usuário"
                         )
-                        web_driver = None
-                        raise
+                        raise # Re-raise if running from CLI, or handle if GUI
 
             logger.info(f"Renavams com débito liquidado: {renavams_liquidados}")
+            return renavams_liquidados
 
-        except Exception:
+        except Exception as e:
+            logger.exception(f"Erro fatal na execução: {e}")
             raise
         finally:
             close_webdriver(web_driver=web_driver)
 
 
 if __name__ == "__main__":
+    load_dotenv()
     executar_teste()
