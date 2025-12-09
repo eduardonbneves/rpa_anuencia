@@ -1,6 +1,10 @@
 import logging
 import os
 from pathlib import Path
+import base64
+import json
+
+import requests
 from logger import (
     Color,
     configure_logging,
@@ -40,6 +44,9 @@ CRA_USERNAME = os.environ["CRA_USERNAME"]
 CRA_PASSWORD = os.environ["CRA_PASSWORD"]
 CRA_LOGIN_PAGE_URL = os.environ["CRA_LOGIN_PAGE_URL"]
 
+CRA_API_BASE_URL = os.environ["CRA_API_BASE_URL"]
+CRA_API_TITULO_ENDPOINT = os.environ["CRA_API_TITULO_ENDPOINT"]
+
 WEB_DRIVER_HEADLESS: bool = os.environ["WEB_DRIVER_HEADLESS"].lower() == "true"
 
 OUTPUT_DIR = os.environ["OUTPUT_DIR"]
@@ -50,13 +57,125 @@ output_dir__str = output_dir.as_posix()
 FLUXO_CRA = "FLUXO CRA"
 FLUXO_GAE = "FLUXO GAE"
 
+cdas = [
+    "050641/22",
+    "092897/25",
+    "049293/25",
+    "123447/19",
+    "509920/19",
+    "117969/25",
+]
+
+def consulta_titulo_cra():
+    credenciais = f"{CRA_USERNAME}:{CRA_PASSWORD}"
+    credenciais_b64 = base64.b64encode(credenciais.encode('utf-8')).decode('utf-8')
+    
+    headers = {
+        "Authorization": f"Basic {credenciais_b64}",
+        "Accept": "application/json"
+    }
+    
+    url_completa = f"{CRA_API_BASE_URL}{CRA_API_TITULO_ENDPOINT}"
+
+    for cda in cdas:
+        parametros = {
+            "numeroTitulo": cda,
+            "documentoDevedor": ""
+        }
+
+
+        logger.debug(f"Consultando título: {cda}...")
+
+        try:
+            # 2. Requisição HTTP
+            response = requests.get(url_completa, headers=headers, params=parametros, timeout=15)
+            
+            # 3. Tratamento de Erros HTTP
+            if response.status_code == 401:
+                return {"status": "ERRO_AUTENTICACAO", "mensagem": "Credenciais inválidas."}
+            elif response.status_code != 200:
+                return {"status": "ERRO_HTTP", "codigo": response.status_code, "mensagem": response.text}
+
+            # 4. Processamento do JSON
+            dados_json = response.json()
+            titulos_encontrados = dados_json.get('_embedded', {}).get('titulo', [])
+
+            if not titulos_encontrados:
+                logger.debug("Título não localizado.")
+                return {
+                    "status": "NAO_ENCONTRADO", 
+                    "mensagem": "Título não retornado na busca.",
+                    "seu_numero": cda
+                }
+
+            # 5. Extração de Dados (Foca no primeiro título retornado, que é o mais relevante)
+            titulo = titulos_encontrados[0]
+            
+            # Dados básicos
+            protocolo = titulo.get('protocolo', 'N/D')
+            situacao = titulo.get('situacao', 'N/D')
+            nosso_numero = titulo.get('nossoNumero', 'N/D')
+            cartorio_nome = titulo.get('cartorio', {}).get('nome', 'N/D')
+
+            # Lógica aprimorada para extrair Ocorrência (combinação dos dois scripts)
+            # Prioriza a lista de 'retornos', mas tem fallbacks
+            cod_ocorrencia = 'N/D'
+            desc_ocorrencia = 'N/D'
+            
+            retornos = titulo.get('retornos', [])
+            
+            if retornos and isinstance(retornos, list):
+                # Pega do primeiro retorno
+                ocorr = retornos[0].get('ocorrencia', {})
+                cod_ocorrencia = ocorr.get('codigo', 'N/D')
+                desc_ocorrencia = ocorr.get('descricao', 'N/D')
+            else:
+                # Fallback: Tenta pegar direto da raiz se existir (lógica do main.py)
+                ocorr_direta = titulo.get('ocorrencia')
+                if isinstance(ocorr_direta, dict):
+                    desc_ocorrencia = ocorr_direta.get('descricao', 'N/D')
+                elif isinstance(ocorr_direta, str):
+                    desc_ocorrencia = ocorr_direta
+
+            # 6. Montagem do Resultado Final
+            resultado = {
+                "status": "ENCONTRADO",
+                "seu_numero": cda,
+                "nosso_numero": nosso_numero,
+                "protocolo": protocolo,
+                "situacao": situacao,
+                "ocorrencia": {
+                    "codigo": cod_ocorrencia,
+                    "descricao": desc_ocorrencia
+                },
+                "cartorio": cartorio_nome,
+                "dados_completos": titulo # Mantém o objeto original caso precise de algo mais
+            }
+
+            logger.debug(f"Encontrado! Nosso Número: {nosso_numero} | Situação: {situacao}")
+            logger.debug(f"Ocorrência: {desc_ocorrencia} ({cod_ocorrencia})")
+
+            
+                # Exemplo de como acessar os dados limpos
+            if resultado['status'] == 'ENCONTRADO':
+                logger.debug(f"\nResumo para relatório:")
+                logger.debug(f"Título: {resultado['seu_numero']}")
+                logger.debug(f"Retorno Cartório: {resultado['ocorrencia']['descricao']}")
+            else:
+                logger.debug(f"\nErro: {resultado['mensagem']}")
+
+
+        except requests.exceptions.RequestException as e:
+            return {"status": "ERRO_CONEXAO", "mensagem": str(e)}
+        except Exception as e:
+            return {"status": "ERRO_INESPERADO", "mensagem": str(e)}
+
 LISTA_RENAVAMS = [
     "150056400",   # Renavam liquidado com uma linha
     "12345678901", # Renavam inválido
     "1213839626",  # Não liquidado com mais de uma linha
     "1151519771",  # Liquidado com várias linhas
 ]
-
 
 def executar_teste():
     with log_context(color=Color.GREEN, prefix__list=[FLUXO_GAE]):
@@ -165,4 +284,4 @@ def executar_teste2():
             close_webdriver(web_driver=web_driver)
 
 if __name__ == "__main__":
-    executar_teste()
+    consulta_titulo_cra()
