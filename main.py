@@ -2,7 +2,8 @@ import logging
 import os
 from pathlib import Path
 import base64
-import json
+import re
+import sys
 
 import requests
 from logger import (
@@ -16,6 +17,7 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from modules.common.helper_function__temp_browser_profile_dir__path import (
     helper_function__temp_browser_profile_dir__path,
 )
+from modules.cra.cra_verificar_se_existe_aba_autorizacao import cra_verificar_se_existe_aba_autorizacao
 from modules.gae.gae_verificar_cda_liquidada_por_renavam import (
     gae_verificar_cda_liquidada_por_renavam,
 )
@@ -40,6 +42,7 @@ SEFAZ_SSO_LOGIN_PAGE_URL = os.environ["SEFAZ_SSO_LOGIN_PAGE_URL"]
 GAE_DEBITO_CONTA_CORRENTE_URL = os.environ["GAE_DEBITO_CONTA_CORRENTE_URL"]
 
 CRA_TIMEOUT_AUTH = int(os.environ["CRA_TIMEOUT_AUTH"])
+CRA_TIMEOUT_DEFAULT = int(os.environ["CRA_TIMEOUT_DEFAULT"])
 CRA_USERNAME = os.environ["CRA_USERNAME"]
 CRA_PASSWORD = os.environ["CRA_PASSWORD"]
 CRA_LOGIN_PAGE_URL = os.environ["CRA_LOGIN_PAGE_URL"]
@@ -58,6 +61,7 @@ FLUXO_CRA = "FLUXO CRA"
 FLUXO_GAE = "FLUXO GAE"
 
 cdas = [
+    "090835/25",
     "050641/22",
     "092897/25",
     "049293/25",
@@ -66,184 +70,91 @@ cdas = [
     "117969/25",
 ]
 
-def consulta_titulo_cra():
-    credenciais = f"{CRA_USERNAME}:{CRA_PASSWORD}"
-    credenciais_b64 = base64.b64encode(credenciais.encode('utf-8')).decode('utf-8')
-    
-    headers = {
-        "Authorization": f"Basic {credenciais_b64}",
-        "Accept": "application/json"
-    }
-    
-    url_completa = f"{CRA_API_BASE_URL}{CRA_API_TITULO_ENDPOINT}"
 
-    for cda in cdas:
-        parametros = {
-            "numeroTitulo": cda,
-            "documentoDevedor": ""
+def consulta_cra_descricao_ocorrencia_titulo():
+    with log_context(color=Color.BLUE, prefix__list=[FLUXO_CRA]):
+        credenciais = f"{CRA_USERNAME}:{CRA_PASSWORD}"
+        credenciais_b64 = base64.b64encode(credenciais.encode("utf-8")).decode("utf-8")
+
+        headers = {
+            "Authorization": f"Basic {credenciais_b64}",
+            "Accept": "application/json",
         }
 
+        url_completa = f"{CRA_API_BASE_URL}{CRA_API_TITULO_ENDPOINT}"
 
-        logger.debug(f"Consultando título: {cda}...")
+        cdas_protestadas_ou_protestadas_por_edital = []
 
-        try:
-            # 2. Requisição HTTP
-            response = requests.get(url_completa, headers=headers, params=parametros, timeout=15)
-            
-            # 3. Tratamento de Erros HTTP
-            if response.status_code == 401:
-                return {"status": "ERRO_AUTENTICACAO", "mensagem": "Credenciais inválidas."}
-            elif response.status_code != 200:
-                return {"status": "ERRO_HTTP", "codigo": response.status_code, "mensagem": response.text}
+        for cda in cdas:
+            parametros = {"numeroTitulo": cda}
 
-            # 4. Processamento do JSON
-            dados_json = response.json()
-            titulos_encontrados = dados_json.get('_embedded', {}).get('titulo', [])
+            logger.debug(f"Consultando título: {cda}...")
 
-            if not titulos_encontrados:
-                logger.debug("Título não localizado.")
-                return {
-                    "status": "NAO_ENCONTRADO", 
-                    "mensagem": "Título não retornado na busca.",
-                    "seu_numero": cda
-                }
+            try:
+                response = requests.get(url_completa, headers=headers, params=parametros)
 
-            # 5. Extração de Dados (Foca no primeiro título retornado, que é o mais relevante)
-            titulo = titulos_encontrados[0]
-            
-            # Dados básicos
-            protocolo = titulo.get('protocolo', 'N/D')
-            situacao = titulo.get('situacao', 'N/D')
-            nosso_numero = titulo.get('nossoNumero', 'N/D')
-            cartorio_nome = titulo.get('cartorio', {}).get('nome', 'N/D')
+                response_json = response.json()
 
-            # Lógica aprimorada para extrair Ocorrência (combinação dos dois scripts)
-            # Prioriza a lista de 'retornos', mas tem fallbacks
-            cod_ocorrencia = 'N/D'
-            desc_ocorrencia = 'N/D'
-            
-            retornos = titulo.get('retornos', [])
-            
-            if retornos and isinstance(retornos, list):
-                # Pega do primeiro retorno
-                ocorr = retornos[0].get('ocorrencia', {})
-                cod_ocorrencia = ocorr.get('codigo', 'N/D')
-                desc_ocorrencia = ocorr.get('descricao', 'N/D')
-            else:
-                # Fallback: Tenta pegar direto da raiz se existir (lógica do main.py)
-                ocorr_direta = titulo.get('ocorrencia')
-                if isinstance(ocorr_direta, dict):
-                    desc_ocorrencia = ocorr_direta.get('descricao', 'N/D')
-                elif isinstance(ocorr_direta, str):
-                    desc_ocorrencia = ocorr_direta
+                if response.status_code == 200:
 
-            # 6. Montagem do Resultado Final
-            resultado = {
-                "status": "ENCONTRADO",
-                "seu_numero": cda,
-                "nosso_numero": nosso_numero,
-                "protocolo": protocolo,
-                "situacao": situacao,
-                "ocorrencia": {
-                    "codigo": cod_ocorrencia,
-                    "descricao": desc_ocorrencia
-                },
-                "cartorio": cartorio_nome,
-                "dados_completos": titulo # Mantém o objeto original caso precise de algo mais
-            }
+                    titulos = response_json.get('_embedded', {}).get('titulo', [])
 
-            logger.debug(f"Encontrado! Nosso Número: {nosso_numero} | Situação: {situacao}")
-            logger.debug(f"Ocorrência: {desc_ocorrencia} ({cod_ocorrencia})")
+                    if titulos:
+                        titulo_atual = titulos[0]
 
-            
-                # Exemplo de como acessar os dados limpos
-            if resultado['status'] == 'ENCONTRADO':
-                logger.debug(f"\nResumo para relatório:")
-                logger.debug(f"Título: {resultado['seu_numero']}")
-                logger.debug(f"Retorno Cartório: {resultado['ocorrencia']['descricao']}")
-            else:
-                logger.debug(f"\nErro: {resultado['mensagem']}")
+                        lista_retornos = titulo_atual.get('retornos', [])
 
+                        if lista_retornos:
+                            ultimo_retorno = lista_retornos[-1]
 
-        except requests.exceptions.RequestException as e:
-            return {"status": "ERRO_CONEXAO", "mensagem": str(e)}
-        except Exception as e:
-            return {"status": "ERRO_INESPERADO", "mensagem": str(e)}
+                            descricao = ultimo_retorno.get('ocorrencia', {}).get('descricao')
 
-LISTA_RENAVAMS = [
-    "150056400",   # Renavam liquidado com uma linha
-    "12345678901", # Renavam inválido
-    "1213839626",  # Não liquidado com mais de uma linha
-    "1151519771",  # Liquidado com várias linhas
-]
+                            logger.debug(f"Última Ocorrência: {descricao}")
 
-def executar_teste():
-    with log_context(color=Color.GREEN, prefix__list=[FLUXO_GAE]):
-        web_driver = None
-        try:
-            temp_browser_profile_output_dir = (
-                helper_function__temp_browser_profile_dir__path()
-            )
-            firefox_options = set_default_firefox_options(
-                headless=WEB_DRIVER_HEADLESS,
-                firefox_options=FirefoxOptions(),
-                browser_profile_output_dir=temp_browser_profile_output_dir,
-            )
-            web_driver = webdriver.Firefox(options=firefox_options)
+                            if descricao in ["Protestado", "Protesto por edital"]:
+                                numero_titulo = titulo_atual.get('numeroTitulo')
+                                nosso_numero = titulo_atual.get('nossoNumero', '')
 
-            gae_log_in(
-                timeout=GAE_TIMEOUT_AUTH,
-                web_driver=web_driver,
-                login_url=SEFAZ_SSO_LOGIN_PAGE_URL,
-                username=GAE_USERNAME,
-                password=GAE_PASSWORD,
-            )
+                                renavam = "NAO_ENCONTRADO"
 
-            logger.debug(f"Iniciando processamento de {len(LISTA_RENAVAMS)} Renavams.")
+                                match = re.search(r'RENA(\d+)', nosso_numero)
+                                if match:
+                                    renavam = match.group(1)
+                                else:
+                                    renavam = "".join(filter(str.isdigit, nosso_numero))
 
-            renavams_liquidados = []
-            for renavam in LISTA_RENAVAMS:
-                with log_context(prefix__list=[FLUXO_GAE, renavam]):
-                    logger.debug(f"Iniciando verificação do Renavam: {renavam}")
-                    try:
-                        web_driver.get(GAE_DEBITO_CONTA_CORRENTE_URL)
+                                dados_titulo = {
+                                    'numero_titulo': numero_titulo,
+                                    'nosso_numero': renavam,
+                                }
 
-                        situacao_debito = gae_verificar_cda_liquidada_por_renavam(
-                            web_driver=web_driver,
-                            renavam=renavam,
-                            timeout=GAE_TIMEOUT_DEFAULT,
-                        )
+                                cdas_protestadas_ou_protestadas_por_edital.append(dados_titulo)
+                        else:
+                            logger.debug("Lista de retornos vazia.")
 
-                        if situacao_debito == "LIQUIDADO":
-                            logger.info(
-                                f"O Renavam {renavam} está com débito liquidado."
-                            )
-                            renavams_liquidados.append(renavam)
+                    else:
+                        logger.debug("Nenhum título encontrado")
 
-                    except Exception as e:
-                        with log_context(color=Color.YELLOW, prefix__list=[FLUXO_GAE]):
-                            logger.error(f"FALHOU: 'renavam = {renavam}'")
-                            logger.exception(f"{e.__class__.__name__}: {e}")
-                            save_screenshot(
-                                web_driver=web_driver,
-                                file_name=f"{renavam}_RENAVAM_GAE_ERROR.png",
-                                output_dir=output_dir__str,
-                            )
-                    except KeyboardInterrupt:
-                        logger.info(
-                            "KeyboardInterrupt: Execução interrompida pelo usuário"
-                        )
-                        web_driver = None
-                        raise
+                elif response.status_code == 401:
+                    logger.debug("Falha na autenticação. Verifique usuário e senha da API.")
+                    sys.exit("Encerrando por falha de autenticação.")
 
-            logger.info(f"Renavams com débito liquidado: {renavams_liquidados}")
+                elif response.status_code == 404:
+                    logger.debug(f"Endpoint não encontrado (404). URL: {url_completa}")
+                    sys.exit("Encerrando por falha de endpoint.")
 
-        except Exception:
-            raise
-        finally:
-            close_webdriver(web_driver=web_driver)
+                else:
+                    logger.debug(f"Erro HTTP inesperado: {response.status_code}. Detalhes: {response.text}")
+                    raise Exception(f"Erro HTTP inesperado: {response.status_code}")
 
-def executar_teste2():
+            except Exception as e:
+                logger.error(f"Erro ao consultar título {cda}: {e}")
+
+        logger.debug(f"CDAs protestadas ou protestadas por edital: {cdas_protestadas_ou_protestadas_por_edital}")
+
+        verificar_se_existe_aba_autorizacao_cra(cdas_protestadas_ou_protestadas_por_edital)
+
+def verificar_se_existe_aba_autorizacao_cra(cdas_protestadas_ou_protestadas_por_edital: list):
     with log_context(color=Color.BLUE, prefix__list=[FLUXO_CRA]):
         web_driver = None
         try:
@@ -265,23 +176,144 @@ def executar_teste2():
                 password=CRA_PASSWORD,
             )
 
+            renavams_nao_autorizados = []
+            for cda in cdas_protestadas_ou_protestadas_por_edital:
+                cda_numero = cda['numero_titulo']
+                with log_context(prefix__list=[FLUXO_CRA, cda_numero]):
+                    logger.debug(f"Iniciando verificação da CDA: {cda_numero}")
+                    try:
+                        aba_autorizacao = cra_verificar_se_existe_aba_autorizacao(
+                            web_driver=web_driver,
+                            cda=cda_numero,
+                            timeout=CRA_TIMEOUT_DEFAULT,
+                        )
+
+                        if not aba_autorizacao:
+                            logger.info(
+                                f"A CDA {cda_numero} ainda não está com autorização."
+                            )
+                            renavam = cda['nosso_numero']
+
+                            dados_titulo = {
+                                    'cda_numero': cda_numero,
+                                    'renavam': renavam,
+                            }
+
+                            renavams_nao_autorizados.append(dados_titulo)
+
+                    except Exception as e:
+                        with log_context(color=Color.YELLOW, prefix__list=[FLUXO_GAE]):
+                            logger.error(f"FALHOU: 'CDA = {cda_numero}'")
+                            logger.exception(f"{e.__class__.__name__}: {e}")
+                            save_screenshot(
+                                web_driver=web_driver,
+                                file_name=f"CDA_CRA_ERROR.png",
+                                output_dir=output_dir__str,
+                            )
+                    except KeyboardInterrupt:
+                        logger.info(
+                            "KeyboardInterrupt: Execução interrompida pelo usuário"
+                        )
+                        web_driver = None
+                        raise
+
+            logger.info(f"Renavams ainda não autorizados: {renavams_nao_autorizados}")
+
         except Exception as e:
-             with log_context(color=Color.YELLOW, prefix__list=[FLUXO_CRA]):
+            with log_context(color=Color.YELLOW, prefix__list=[FLUXO_CRA]):
                 logger.exception(f"{e.__class__.__name__}: {e}")
                 save_screenshot(
                     web_driver=web_driver,
-                    file_name="LOGIN_CRA_ERROR.png",
+                    file_name="CRA_ERROR.png",
                     output_dir=output_dir__str,
                 )
                 raise
         except KeyboardInterrupt:
-                logger.info(
-                    "KeyboardInterrupt: Execução interrompida pelo usuário"
-                )
-                web_driver = None
-                raise
+            logger.info("KeyboardInterrupt: Execução interrompida pelo usuário")
+            web_driver = None
+            raise
+        finally:
+            close_webdriver(web_driver=web_driver)
+
+    if renavams_nao_autorizados:
+        fluxo_gae(renavams_nao_autorizados)
+    else:
+        logger.info("Nenhum renavam pendente para o GAE.")
+
+def fluxo_gae(renavams_nao_autorizados: list):
+    with log_context(color=Color.GREEN, prefix__list=[FLUXO_GAE]):
+        web_driver = None
+        try:
+            temp_browser_profile_output_dir = (
+                helper_function__temp_browser_profile_dir__path()
+            )
+            firefox_options = set_default_firefox_options(
+                headless=WEB_DRIVER_HEADLESS,
+                firefox_options=FirefoxOptions(),
+                browser_profile_output_dir=temp_browser_profile_output_dir,
+            )
+            web_driver = webdriver.Firefox(options=firefox_options)
+
+            gae_log_in(
+                timeout=GAE_TIMEOUT_AUTH,
+                web_driver=web_driver,
+                login_url=SEFAZ_SSO_LOGIN_PAGE_URL,
+                username=GAE_USERNAME,
+                password=GAE_PASSWORD,
+            )
+
+            logger.debug(f"Iniciando processamento de {len(renavams_nao_autorizados)} Renavams.")
+
+            renavams_liquidados = []
+            for renavam in renavams_nao_autorizados:
+                renavam_numero = renavam['renavam']
+                with log_context(prefix__list=[FLUXO_GAE, renavam_numero]):
+                    logger.debug(f"Iniciando verificação do Renavam: {renavam_numero}")
+                    try:
+                        web_driver.get(GAE_DEBITO_CONTA_CORRENTE_URL)
+
+                        situacao_debito = gae_verificar_cda_liquidada_por_renavam(
+                            web_driver=web_driver,
+                            renavam=renavam_numero,
+                            timeout=GAE_TIMEOUT_DEFAULT,
+                        )
+
+                        if situacao_debito == "LIQUIDADO":
+                            logger.info(
+                                f"O Renavam {renavam_numero} está com débito liquidado."
+                            )
+
+                            cda = renavam['cda_numero']
+
+                            dados_titulo = {
+                                'cda_numero': cda,
+                                'renavam': renavam_numero,
+                            }
+
+                            renavams_liquidados.append(dados_titulo)
+
+                    except Exception as e:
+                        with log_context(color=Color.YELLOW, prefix__list=[FLUXO_GAE]):
+                            logger.error(f"FALHOU: 'renavam = {renavam_numero}'")
+                            logger.exception(f"{e.__class__.__name__}: {e}")
+                            save_screenshot(
+                                web_driver=web_driver,
+                                file_name=f"{renavam_numero}_RENAVAM_GAE_ERROR.png",
+                                output_dir=output_dir__str,
+                            )
+                    except KeyboardInterrupt:
+                        logger.info(
+                            "KeyboardInterrupt: Execução interrompida pelo usuário"
+                        )
+                        web_driver = None
+                        raise
+
+            logger.info(f"Renavams com débito liquidado: {renavams_liquidados}")
+
+        except Exception:
+            raise
         finally:
             close_webdriver(web_driver=web_driver)
 
 if __name__ == "__main__":
-    consulta_titulo_cra()
+    consulta_cra_descricao_ocorrencia_titulo()

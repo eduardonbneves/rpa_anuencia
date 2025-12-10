@@ -38,3 +38,9 @@
     ```bash
     python main.py
     ```
+
+**Formatar Identação:**
+
+    ```bash
+    python -m tasks.format
+    ```

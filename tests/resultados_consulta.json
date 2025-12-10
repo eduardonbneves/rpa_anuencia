@@ -1,0 +1,1118 @@
+[
+  {
+    "seu_numero": "050641/22",
+    "status": "ENCONTRADO",
+    "protocolo": "0016453010",
+    "situacao": "RETORNADO",
+    "nosso_numero": "050641/22",
+    "ocorrencia_codigo": "C",
+    "ocorrencia_descricao": "Protesto por edital",
+    "cartorio": "1º Tabelionato de Protesto de Manaus",
+    "dados_completos": {
+      "id": 5985344,
+      "numeroTitulo": "050641/22",
+      "nossoNumero": "050641/22",
+      "protocolo": "0016453010",
+      "dataProtocolo": {
+        "date": "2022-06-09 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataEmissao": {
+        "date": "2022-06-09 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataVencimento": "26/05/2022",
+      "valor": "10403.42",
+      "saldo": "11446.26",
+      "especie": "CDA",
+      "descricaoEspecie": "Certidão da Dívida Ativa",
+      "endosso": null,
+      "situacao": "RETORNADO",
+      "nomeSacador": "OUTROS: 103022470124",
+      "tipoDocumentoSacador": "CNPJ",
+      "documentoSacador": "04312369001162",
+      "nomeCedente": "AMAZONAS GOVERNO DO ESTADO - PGE",
+      "devedores": [
+        {
+          "nome": "A E J COM DE UTILIDADES DOMESTICAS LTDA - ME",
+          "tipoDocumento": "CNPJ",
+          "documento": "10754741000111",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "AUTAZ MIRIM  6444  SAO JOSE OPERARIO",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69085000,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        },
+        {
+          "nome": "ANTONIO RODRIGUES FILHO",
+          "tipoDocumento": "CPF",
+          "documento": "67580238349",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "AVE PRESIDENTE CASTELO BRANCO  6  SAO JOSE OP",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69065010,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        },
+        {
+          "nome": "JESSICA LIMA RODRIGUES",
+          "tipoDocumento": "CPF",
+          "documento": "04137928380",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "AVE AUTAZ MIRIM  6444  SAO JOSE OPERARIO",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 60065010,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        }
+      ],
+      "apresentante": {
+        "id": 62,
+        "nome": "PROCURADORIA GERAL DO ESTADO DO AMAZONAS - PGE/AM",
+        "codigo": "047055",
+        "documento": "19477848000134",
+        "endereco": {
+          "endereco": "RUA EMILIO MOREIRA, 1308",
+          "bairro": "PRACA 14 DE JANEIRO",
+          "cep": "69020040",
+          "uf": "AM",
+          "cidade": "MANAUS"
+        },
+        "telefones": [
+          "9236496155",
+          "9236223904"
+        ],
+        "fax": [],
+        "emails": "",
+        "tipo": "CONVENIO",
+        "tipoConvenio": "PUBLICO",
+        "momentoCobranca": "CANCELAMENTO",
+        "situacao": "ATIVO",
+        "intimacao": "NAO",
+        "categoria": {
+          "id": 4,
+          "nome": "AM"
+        }
+      },
+      "cartorio": {
+        "id": 4,
+        "nome": "1º Tabelionato de Protesto de Manaus",
+        "documento": "23040199000187",
+        "uf": "AM",
+        "tipo": "CARTORIO",
+        "codigo": "01",
+        "endereco": {
+          "endereco": "Shopping Manaus Plaza, Av Djalma Batista nº. 2100, 01 Andar",
+          "bairro": "Chapada",
+          "cep": "69010020",
+          "uf": "AM"
+        },
+        "telefones": [
+          "9236333536"
+        ],
+        "fax": [],
+        "emails": [
+          {
+            "id": 265,
+            "nome": "1° Ofício de Manaus",
+            "email": "protesto@1rimanaus.com.br"
+          }
+        ],
+        "municipio": {
+          "id": 891,
+          "nome": "Manaus",
+          "codigo": "1302603"
+        }
+      },
+      "retornos": [
+        {
+          "id": 6790227,
+          "dataApresentante": {
+            "date": "2022-06-20 10:49:29.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2022-06-20 10:49:29.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "C",
+            "descricao": "Protesto por edital",
+            "data": {
+              "date": "2022-06-17 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "10403.42",
+          "saldo": "11446.26",
+          "protocolo": "0016453010",
+          "dataProtocolo": {
+            "date": "2022-06-09 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "050641/22",
+          "sequencial": "001755",
+          "status": "LIBERADO"
+        },
+        {
+          "id": 11144966,
+          "dataApresentante": {
+            "date": "2025-11-10 10:42:27.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2025-11-10 10:42:27.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "A",
+            "descricao": "Protestado do banco cancelado",
+            "data": {
+              "date": "2025-11-07 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "10403.42",
+          "saldo": "11446.26",
+          "protocolo": "0016453010",
+          "dataProtocolo": {
+            "date": "2022-06-09 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "050641/22",
+          "sequencial": "002578",
+          "status": "LIBERADO"
+        }
+      ],
+      "confirmacao": {
+        "id": 172266,
+        "dataConfirmacao": {
+          "date": "2022-06-09 13:44:17.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "remessa": {
+        "id": 156851,
+        "sequencial": "000718",
+        "nomeArquivo": "B0470550906.222",
+        "data": {
+          "date": "2022-06-09 13:25:42.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "custas": [
+        {
+          "id": 9806820,
+          "tipo": {
+            "id": 2,
+            "nome": "Cancelamento"
+          },
+          "vigencia": {
+            "date": "2025-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "total": "638.23"
+        }
+      ],
+      "andamentos": [
+        {
+          "codigo": "AJ",
+          "data": {
+            "date": "2025-11-07 09:03:12.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://craam.api.crabr.com.br/titulo/5985344"
+        }
+      }
+    },
+    "valor_titulo": 672.44
+  },
+  {
+    "seu_numero": "092897/25",
+    "status": "ENCONTRADO",
+    "protocolo": "0014433490",
+    "situacao": "RETORNADO",
+    "nosso_numero": "RENA1360454877",
+    "ocorrencia_codigo": "2",
+    "ocorrencia_descricao": "Protestado",
+    "cartorio": "5º Tabelionato de Protesto de Manaus",
+    "dados_completos": {
+      "id": 9775107,
+      "numeroTitulo": "092897/25",
+      "nossoNumero": "RENA1360454877",
+      "protocolo": "0014433490",
+      "dataProtocolo": {
+        "date": "2025-09-12 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataEmissao": {
+        "date": "2025-09-12 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataVencimento": "06/08/2025",
+      "valor": "5175.15",
+      "saldo": "5695.16",
+      "especie": "CDA",
+      "descricaoEspecie": "Certidão da Dívida Ativa",
+      "endosso": null,
+      "situacao": "RETORNADO",
+      "nomeSacador": "IPVA: - QZU2H79 109028920031",
+      "tipoDocumentoSacador": "CNPJ",
+      "documentoSacador": "04312369001162",
+      "nomeCedente": "AMAZONAS GOVERNO DO ESTADO - PGE",
+      "devedores": [
+        {
+          "nome": "NELMA CRISTINA DA S GONCALVES",
+          "tipoDocumento": "CPF",
+          "documento": "20252587200",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "BELO HORIZONTE CD:SAINT TROPEZ  1165  ADRIANO",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69057060,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        }
+      ],
+      "apresentante": {
+        "id": 62,
+        "nome": "PROCURADORIA GERAL DO ESTADO DO AMAZONAS - PGE/AM",
+        "codigo": "047055",
+        "documento": "19477848000134",
+        "endereco": {
+          "endereco": "RUA EMILIO MOREIRA, 1308",
+          "bairro": "PRACA 14 DE JANEIRO",
+          "cep": "69020040",
+          "uf": "AM",
+          "cidade": "MANAUS"
+        },
+        "telefones": [
+          "9236496155",
+          "9236223904"
+        ],
+        "fax": [],
+        "emails": "",
+        "tipo": "CONVENIO",
+        "tipoConvenio": "PUBLICO",
+        "momentoCobranca": "CANCELAMENTO",
+        "situacao": "ATIVO",
+        "intimacao": "NAO",
+        "categoria": {
+          "id": 4,
+          "nome": "AM"
+        }
+      },
+      "cartorio": {
+        "id": 7,
+        "nome": "5º Tabelionato de Protesto de Manaus",
+        "documento": "07548273000114",
+        "uf": "AM",
+        "tipo": "CARTORIO",
+        "codigo": "05",
+        "endereco": {
+          "endereco": "Avenida Mário Ypiranga 315 Sala 1411 The Office",
+          "bairro": "Adrianópolis",
+          "cep": "69057000",
+          "uf": "AM"
+        },
+        "telefones": [
+          "9236220532"
+        ],
+        "fax": [],
+        "emails": [
+          {
+            "id": 269,
+            "nome": "5º Tabelionato de Protesto de Manaus",
+            "email": "oficio5.manaus@yahoo.com.br"
+          }
+        ],
+        "municipio": {
+          "id": 891,
+          "nome": "Manaus",
+          "codigo": "1302603"
+        }
+      },
+      "retornos": [
+        {
+          "id": 10957617,
+          "dataApresentante": {
+            "date": "2025-09-22 10:59:27.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2025-09-22 10:59:27.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "2",
+            "descricao": "Protestado",
+            "data": {
+              "date": "2025-09-19 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "5175.15",
+          "saldo": "5695.16",
+          "protocolo": "0014433490",
+          "dataProtocolo": {
+            "date": "2025-09-12 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "RENA1360454877",
+          "sequencial": "002544",
+          "status": "LIBERADO"
+        }
+      ],
+      "confirmacao": {
+        "id": 323081,
+        "dataConfirmacao": {
+          "date": "2025-09-12 11:40:15.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "remessa": {
+        "id": 303361,
+        "sequencial": "001083",
+        "nomeArquivo": "B0470551209.251",
+        "data": {
+          "date": "2025-09-12 11:20:31.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "custas": [
+        {
+          "id": 15249562,
+          "tipo": {
+            "id": 2,
+            "nome": "Cancelamento"
+          },
+          "vigencia": {
+            "date": "2025-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "total": "1066.97"
+        }
+      ],
+      "andamentos": [
+        {
+          "codigo": "AF",
+          "data": {
+            "date": "2025-09-12 08:51:28.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        },
+        {
+          "codigo": "AG",
+          "data": {
+            "date": "2025-09-16 08:40:48.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        },
+        {
+          "codigo": "AG",
+          "data": {
+            "date": "2025-09-16 08:43:56.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://craam.api.crabr.com.br/titulo/9775107"
+        }
+      }
+    },
+    "valor_titulo": 201.45
+  },
+  {
+    "seu_numero": "049293/25",
+    "status": "ENCONTRADO",
+    "protocolo": "0028187600",
+    "situacao": "RETORNADO",
+    "nosso_numero": "RENA585646023",
+    "ocorrencia_codigo": "C",
+    "ocorrencia_descricao": "Protesto por edital",
+    "cartorio": "3º Tabelionato de Protesto de Manaus",
+    "dados_completos": {
+      "id": 9349072,
+      "numeroTitulo": "049293/25",
+      "nossoNumero": "RENA585646023",
+      "protocolo": "0028187600",
+      "dataProtocolo": {
+        "date": "2025-06-06 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataEmissao": {
+        "date": "2025-06-06 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataVencimento": "26/05/2025",
+      "valor": "4174.26",
+      "saldo": "4594.19",
+      "especie": "CDA",
+      "descricaoEspecie": "Certidão da Dívida Ativa",
+      "endosso": null,
+      "situacao": "RETORNADO",
+      "nomeSacador": "IPVA: - NOU4122 20240406",
+      "tipoDocumentoSacador": "CNPJ",
+      "documentoSacador": "04312369001162",
+      "nomeCedente": "AMAZONAS GOVERNO DO ESTADO - PGE",
+      "devedores": [
+        {
+          "nome": "SEBASTIAO PINHEIRO DA SILVA JUNIOR",
+          "tipoDocumento": "CPF",
+          "documento": "02807241280",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "RUA  PALMEIRINHA  78  JORGE TEIXEIRA",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69088419,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        },
+        {
+          "nome": "BANCO BRADESCO FINANCIAMENTOS S.A.",
+          "tipoDocumento": "CNPJ",
+          "documento": "07207996000150",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "NUC CIDADE DE DEUS  VILA YARA",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 6029900,
+            "uf": "SP",
+            "cidade": "OSASCO"
+          }
+        }
+      ],
+      "apresentante": {
+        "id": 62,
+        "nome": "PROCURADORIA GERAL DO ESTADO DO AMAZONAS - PGE/AM",
+        "codigo": "047055",
+        "documento": "19477848000134",
+        "endereco": {
+          "endereco": "RUA EMILIO MOREIRA, 1308",
+          "bairro": "PRACA 14 DE JANEIRO",
+          "cep": "69020040",
+          "uf": "AM",
+          "cidade": "MANAUS"
+        },
+        "telefones": [
+          "9236496155",
+          "9236223904"
+        ],
+        "fax": [],
+        "emails": "",
+        "tipo": "CONVENIO",
+        "tipoConvenio": "PUBLICO",
+        "momentoCobranca": "CANCELAMENTO",
+        "situacao": "ATIVO",
+        "intimacao": "NAO",
+        "categoria": {
+          "id": 4,
+          "nome": "AM"
+        }
+      },
+      "cartorio": {
+        "id": 3,
+        "nome": "3º Tabelionato de Protesto de Manaus",
+        "documento": "04321048000152",
+        "uf": "AM",
+        "tipo": "CARTORIO",
+        "codigo": "03",
+        "endereco": {
+          "endereco": "Avenida Mário Ypiranga - 1906",
+          "bairro": "Adrianópolis",
+          "cep": "69057002",
+          "uf": "AM"
+        },
+        "telefones": [
+          "9236224640"
+        ],
+        "fax": [],
+        "emails": [
+          {
+            "id": 267,
+            "nome": "3º Tabelionato de Protesto de Manaus",
+            "email": "cartorio3protestomanaus@gmail.com"
+          }
+        ],
+        "municipio": {
+          "id": 891,
+          "nome": "Manaus",
+          "codigo": "1302603"
+        }
+      },
+      "retornos": [
+        {
+          "id": 10498790,
+          "dataApresentante": {
+            "date": "2025-06-16 10:54:14.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2025-06-16 10:54:14.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "C",
+            "descricao": "Protesto por edital",
+            "data": {
+              "date": "2025-06-13 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "4174.26",
+          "saldo": "4594.19",
+          "protocolo": "0028187600",
+          "dataProtocolo": {
+            "date": "2025-06-06 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "RENA585646023",
+          "sequencial": "002476",
+          "status": "LIBERADO"
+        }
+      ],
+      "confirmacao": {
+        "id": 307504,
+        "dataConfirmacao": {
+          "date": "2025-06-06 12:40:43.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "remessa": {
+        "id": 287672,
+        "sequencial": "001021",
+        "nomeArquivo": "B0470550606.251",
+        "data": {
+          "date": "2025-06-06 12:17:54.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "custas": [
+        {
+          "id": 14703855,
+          "tipo": {
+            "id": 2,
+            "nome": "Cancelamento"
+          },
+          "vigencia": {
+            "date": "2025-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "total": "1065.35"
+        }
+      ],
+      "andamentos": [],
+      "_links": {
+        "self": {
+          "href": "https://craam.api.crabr.com.br/titulo/9349072"
+        }
+      }
+    },
+    "valor_titulo": 180.7
+  },
+  {
+    "seu_numero": "123447/19",
+    "status": "ENCONTRADO",
+    "protocolo": "0000015705",
+    "situacao": "RETORNADO",
+    "nosso_numero": "RENA850497426",
+    "ocorrencia_codigo": "2",
+    "ocorrencia_descricao": "Protestado",
+    "cartorio": "CARTÓRIO JUDICIAL E ANEXOS DA 1ª VARA DE MANACAPURU",
+    "dados_completos": {
+      "id": 4169609,
+      "numeroTitulo": "123447/19",
+      "nossoNumero": "RENA850497426",
+      "protocolo": "0000015705",
+      "dataProtocolo": {
+        "date": "2019-08-28 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataEmissao": {
+        "date": "2019-08-23 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataVencimento": "12/08/2019",
+      "valor": "860.35",
+      "saldo": "948.89",
+      "especie": "CDA",
+      "descricaoEspecie": "Certidão da Dívida Ativa",
+      "endosso": null,
+      "situacao": "RETORNADO",
+      "nomeSacador": "ICMS DECL: 20150504",
+      "tipoDocumentoSacador": "CNPJ",
+      "documentoSacador": "04312369001162",
+      "nomeCedente": "AMAZONAS GOVERNO DO ESTADO - PGE",
+      "devedores": [
+        {
+          "nome": "ELISON VERAS DE ARAUJO",
+          "tipoDocumento": "CPF",
+          "documento": "02717696296",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "AV CRISTO REI  16  UNIAO",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69401077,
+            "uf": "AM",
+            "cidade": "MANACAPURU"
+          }
+        }
+      ],
+      "apresentante": {
+        "id": 62,
+        "nome": "PROCURADORIA GERAL DO ESTADO DO AMAZONAS - PGE/AM",
+        "codigo": "047055",
+        "documento": "19477848000134",
+        "endereco": {
+          "endereco": "RUA EMILIO MOREIRA, 1308",
+          "bairro": "PRACA 14 DE JANEIRO",
+          "cep": "69020040",
+          "uf": "AM",
+          "cidade": "MANAUS"
+        },
+        "telefones": [
+          "9236496155",
+          "9236223904"
+        ],
+        "fax": [],
+        "emails": "",
+        "tipo": "CONVENIO",
+        "tipoConvenio": "PUBLICO",
+        "momentoCobranca": "CANCELAMENTO",
+        "situacao": "ATIVO",
+        "intimacao": "NAO",
+        "categoria": {
+          "id": 4,
+          "nome": "AM"
+        }
+      },
+      "cartorio": {
+        "id": 9,
+        "nome": "CARTÓRIO JUDICIAL E ANEXOS DA 1ª VARA DE MANACAPURU",
+        "documento": "04276325000152",
+        "uf": "AM",
+        "tipo": "CARTORIO",
+        "codigo": "01",
+        "endereco": {
+          "endereco": "RUA QUINTINO BOCAIUVA, 1062",
+          "bairro": "CENTRO",
+          "cep": "69400030",
+          "uf": "AM"
+        },
+        "telefones": [
+          "9233612353",
+          "9233611250"
+        ],
+        "fax": [
+          "92994263282"
+        ],
+        "emails": [
+          {
+            "id": 1518,
+            "nome": "CARTORIO DE MANACAPURU 1 e 2",
+            "email": "protesto@cartorio1manacapuru.com.br"
+          },
+          {
+            "id": 3971,
+            "nome": "CARTÓRIO DE MANACAPURU 1 E 2",
+            "email": "protesto@tabelionatomanacapuru.com.br"
+          }
+        ],
+        "municipio": {
+          "id": 889,
+          "nome": "Manacapuru",
+          "codigo": "1302504"
+        }
+      },
+      "retornos": [
+        {
+          "id": 4426174,
+          "dataApresentante": {
+            "date": "2019-09-10 09:24:30.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2019-09-10 09:24:30.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "2",
+            "descricao": "Protestado",
+            "data": {
+              "date": "2019-09-09 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "860.35",
+          "saldo": "948.89",
+          "protocolo": "0000015705",
+          "dataProtocolo": {
+            "date": "2019-08-28 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "RENA850497426",
+          "sequencial": "000084",
+          "status": "LIBERADO"
+        }
+      ],
+      "confirmacao": {
+        "id": 101453,
+        "dataConfirmacao": {
+          "date": "2019-08-28 10:32:25.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "remessa": {
+        "id": 91475,
+        "sequencial": "000066",
+        "nomeArquivo": "B0470552308.192",
+        "data": {
+          "date": "2019-08-27 09:20:39.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "custas": [
+        {
+          "id": 14522618,
+          "tipo": {
+            "id": 2,
+            "nome": "Cancelamento"
+          },
+          "vigencia": {
+            "date": "2025-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "total": "183.98"
+        }
+      ],
+      "andamentos": [],
+      "_links": {
+        "self": {
+          "href": "https://craam.api.crabr.com.br/titulo/4169609"
+        }
+      }
+    },
+    "valor_titulo": 198.03
+  },
+  {
+    "seu_numero": "509920/19",
+    "status": "NAO_ENCONTRADO",
+    "mensagem": "Título não localizado na base da CRA21",
+    "valor_titulo": 57.54
+  },
+  {
+    "seu_numero": "117969/25",
+    "status": "ENCONTRADO",
+    "protocolo": "0028821350",
+    "situacao": "RETORNADO",
+    "nosso_numero": "RENA492036845",
+    "ocorrencia_codigo": "C",
+    "ocorrencia_descricao": "Protesto por edital",
+    "cartorio": "3º Tabelionato de Protesto de Manaus",
+    "dados_completos": {
+      "id": 9897280,
+      "numeroTitulo": "117969/25",
+      "nossoNumero": "RENA492036845",
+      "protocolo": "0028821350",
+      "dataProtocolo": {
+        "date": "2025-10-20 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataEmissao": {
+        "date": "2025-10-20 00:00:00.000000",
+        "timezone_type": 3,
+        "timezone": "America/Sao_Paulo"
+      },
+      "dataVencimento": "18/10/2025",
+      "valor": "842.54",
+      "saldo": "929.29",
+      "especie": "CDA",
+      "descricaoEspecie": "Certidão da Dívida Ativa",
+      "endosso": null,
+      "situacao": "RETORNADO",
+      "nomeSacador": "IPVA: - OAN6J47 20240902",
+      "tipoDocumentoSacador": "CNPJ",
+      "documentoSacador": "04312369001162",
+      "nomeCedente": "AMAZONAS GOVERNO DO ESTADO - PGE",
+      "devedores": [
+        {
+          "nome": "ALEXANDRE PEREIRA DE FREITAS",
+          "tipoDocumento": "CPF",
+          "documento": "00567190277",
+          "telefone": [
+            ""
+          ],
+          "email": [
+            ""
+          ],
+          "endereco": {
+            "endereco": "RUA  08  01  MONTE PASCOAL",
+            "enderecoCompleto": null,
+            "bairro": null,
+            "cep": 69037001,
+            "uf": "AM",
+            "cidade": "MANAUS"
+          }
+        }
+      ],
+      "apresentante": {
+        "id": 62,
+        "nome": "PROCURADORIA GERAL DO ESTADO DO AMAZONAS - PGE/AM",
+        "codigo": "047055",
+        "documento": "19477848000134",
+        "endereco": {
+          "endereco": "RUA EMILIO MOREIRA, 1308",
+          "bairro": "PRACA 14 DE JANEIRO",
+          "cep": "69020040",
+          "uf": "AM",
+          "cidade": "MANAUS"
+        },
+        "telefones": [
+          "9236496155",
+          "9236223904"
+        ],
+        "fax": [],
+        "emails": "",
+        "tipo": "CONVENIO",
+        "tipoConvenio": "PUBLICO",
+        "momentoCobranca": "CANCELAMENTO",
+        "situacao": "ATIVO",
+        "intimacao": "NAO",
+        "categoria": {
+          "id": 4,
+          "nome": "AM"
+        }
+      },
+      "cartorio": {
+        "id": 3,
+        "nome": "3º Tabelionato de Protesto de Manaus",
+        "documento": "04321048000152",
+        "uf": "AM",
+        "tipo": "CARTORIO",
+        "codigo": "03",
+        "endereco": {
+          "endereco": "Avenida Mário Ypiranga - 1906",
+          "bairro": "Adrianópolis",
+          "cep": "69057002",
+          "uf": "AM"
+        },
+        "telefones": [
+          "9236224640"
+        ],
+        "fax": [],
+        "emails": [
+          {
+            "id": 267,
+            "nome": "3º Tabelionato de Protesto de Manaus",
+            "email": "cartorio3protestomanaus@gmail.com"
+          }
+        ],
+        "municipio": {
+          "id": 891,
+          "nome": "Manaus",
+          "codigo": "1302603"
+        }
+      },
+      "retornos": [
+        {
+          "id": 11105432,
+          "dataApresentante": {
+            "date": "2025-10-30 10:41:59.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "dataCartorio": {
+            "date": "2025-10-30 10:41:59.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "ocorrencia": {
+            "codigo": "C",
+            "descricao": "Protesto por edital",
+            "data": {
+              "date": "2025-10-29 00:00:00.000000",
+              "timezone_type": 3,
+              "timezone": "America/Sao_Paulo"
+            },
+            "irregularidade": []
+          },
+          "valor": "842.54",
+          "saldo": "929.29",
+          "protocolo": "0028821350",
+          "dataProtocolo": {
+            "date": "2025-10-20 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "nossoNumero": "RENA492036845",
+          "sequencial": "002571",
+          "status": "LIBERADO"
+        }
+      ],
+      "confirmacao": {
+        "id": 328777,
+        "dataConfirmacao": {
+          "date": "2025-10-20 11:30:01.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "remessa": {
+        "id": 308856,
+        "sequencial": "001098",
+        "nomeArquivo": "B0470552010.251",
+        "data": {
+          "date": "2025-10-20 10:48:08.000000",
+          "timezone_type": 3,
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "custas": [
+        {
+          "id": 15377804,
+          "tipo": {
+            "id": 2,
+            "nome": "Cancelamento"
+          },
+          "vigencia": {
+            "date": "2025-12-31 00:00:00.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          },
+          "total": "377.88"
+        }
+      ],
+      "andamentos": [
+        {
+          "codigo": "AF",
+          "data": {
+            "date": "2025-10-20 08:43:56.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        },
+        {
+          "codigo": "AG",
+          "data": {
+            "date": "2025-10-28 08:56:02.000000",
+            "timezone_type": 3,
+            "timezone": "America/Sao_Paulo"
+          }
+        }
+      ],
+      "_links": {
+        "self": {
+          "href": "https://craam.api.crabr.com.br/titulo/9897280"
+        }
+      }
+    },
+    "valor_titulo": 84.88
+  }
+]
