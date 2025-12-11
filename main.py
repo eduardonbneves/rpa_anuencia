@@ -147,8 +147,8 @@ def consulta_cra_descricao_ocorrencia_titulo():
                     logger.debug(f"Erro HTTP inesperado: {response.status_code}. Detalhes: {response.text}")
                     raise Exception(f"Erro HTTP inesperado: {response.status_code}")
 
-            except Exception as e:
-                logger.error(f"Erro ao consultar título {cda}: {e}")
+            except Exception:
+                logger.error(f"Erro ao consultar título {cda}: {response}")
 
         logger.debug(f"CDAs protestadas ou protestadas por edital: {cdas_protestadas_ou_protestadas_por_edital}")
 
